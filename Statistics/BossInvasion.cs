@@ -119,7 +119,8 @@ namespace Statistics
         public BossInvasion(int type) : this()
         {
             Type = type;
-            Name = Main.npcName[type];// Enum.GetName(typeof(BossType), type);
+            //Name = Main.npcName[type]; // breaks on negative entries (invasions)
+            Name = Enum.GetName(typeof(BossType), type);
             if (Type < 0)
                 Invasion = true;
 

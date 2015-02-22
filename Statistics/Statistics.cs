@@ -27,7 +27,7 @@ using TShockAPI.Hooks;
 
 namespace Statistics
 {
-	[ApiVersion(1, 15)]
+	[ApiVersion(1, 16)]
 	public class Statistics : TerrariaPlugin
 	{
 		#region Defaults
@@ -278,7 +278,7 @@ namespace Statistics
 			Player player = players[args.Player.Index];
 			if (args.Parameters.Count > 0)
 			{
-				Player plr = players.FirstOrDefault(p => p.Name.ToLower() == args.Parameters[0].ToLower());
+				Player plr = players.FirstOrDefault(p => p != null && p.Name.ToLower() == args.Parameters[0].ToLower());
 				if (plr != null)
 				{
 					args.Player.SendMessage(string.Format("Player is subscribed for Bosses: {0} Invasions: {1}.", plr.BossSubscribed,
@@ -412,7 +412,8 @@ namespace Statistics
 			{
 				subCount = 0;
 				var activeInvasion = invasions.FirstOrDefault(i => i.Active);
-				var subbedPlayers = players.Where(p => p.EventSubscribed).ToList();
+				var subbedPlayers = players.Where(p => p != null && p.EventSubscribed).ToList();
+
 				//var subbedPlayers = players.Values.Where(p => p.EventSubscribed).ToList();
 				if (activeInvasion != null && subbedPlayers.Count > 0)
 				{
@@ -437,7 +438,7 @@ namespace Statistics
 			// Time Update
 			foreach (Player player in players)
 			{
-				if (TShock.Players[player.Index] != null && player != null)
+                if (player != null && TShock.Players[player.Index] != null)
 					player.Time.Playing++;
 			}
 		}

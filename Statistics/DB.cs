@@ -40,7 +40,7 @@ namespace Statistics
             }
             SqlTableCreator sqlcreator = new SqlTableCreator(db, db.GetSqlType() == SqlType.Sqlite ?
                 (IQueryBuilder)new SqliteQueryCreator() : new MysqlQueryCreator());
-            sqlcreator.EnsureExists(new SqlTable("StatPlayers",
+            sqlcreator.EnsureTableStructure(new SqlTable("StatPlayers",
                 new SqlColumn("Name", MySqlDbType.Text),
                 new SqlColumn("Healed", MySqlDbType.Int32),
                 new SqlColumn("TimesHealed", MySqlDbType.Int32),
