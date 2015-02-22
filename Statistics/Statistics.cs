@@ -66,7 +66,7 @@ namespace Statistics
 
 		public override string Author
 		{
-			get { return "Meth"; }
+			get { return "Meth / Xiagu"; }
 		}
 
 		public override string Description
