@@ -14,6 +14,10 @@ Versions
 	+ Only players who have done damage in Boss encounters see after battle message now.
 	+ Fixed spam on Plantera (left over spores)
 	+ Refactored all boss "children" to eliminate reporting new boss battles
+* 1.0.11 -
+    + Updated to TShock API version 1.16
+    + Fixed a bunch of bugs with invasions and null players
+    + Added incremental DPS display to each invasion update (of DPS in the 10 seconds since previous update)
 
 Commands
 --------
