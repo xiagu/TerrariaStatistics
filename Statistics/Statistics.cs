@@ -266,8 +266,11 @@ namespace Statistics
 				if (Main.snowMoon)
 					invasion = invasions.FirstOrDefault(i => i.Type == -5);
 
-				if (invasion != null)
-					args.Player.SendMessage(ReportProgress(invasion), Color.LightGreen);
+                if (invasion != null)
+                {
+                    args.Player.SendMessage(ReportProgress(invasion), Color.LightGreen);
+                    args.Player.SendMessage(ReportDps(invasion, players[args.Player.Index], subInterval), Color.LightGreen);
+                }
 			}
 		}
 		#endregion
@@ -410,6 +413,7 @@ namespace Statistics
 			// Send subscription information for events to subscribed players
 			if (++subCount >= subInterval)
 			{
+                byte timeElapsed = subCount;
 				subCount = 0;
 				var activeInvasion = invasions.FirstOrDefault(i => i.Active);
 				var subbedPlayers = players.Where(p => p != null && p.EventSubscribed).ToList();
@@ -417,10 +421,12 @@ namespace Statistics
 				//var subbedPlayers = players.Values.Where(p => p.EventSubscribed).ToList();
 				if (activeInvasion != null && subbedPlayers.Count > 0)
 				{
-					string report = ReportProgress(activeInvasion);
 					foreach (var sub in subbedPlayers)
 					{
+                        string report = ReportProgress(activeInvasion);
 						TShock.Players[sub.Index].SendMessage(report, Color.Purple);
+                        string dps = ReportDps(activeInvasion, sub, timeElapsed);
+                        TShock.Players[sub.Index].SendMessage(dps, Color.Purple);
 					}
 				}
 
@@ -855,8 +861,19 @@ namespace Statistics
 		}
 		#endregion
 
-		#region Times
-		public string TimeTilMorning()
+        #region ReportDps
+        public string ReportDps(BossInvasion e, Player player, byte timeElapsed)
+        {
+            // Uses the player's index to reidentify them in the BossInvasion's player list
+            Player plr = e.Players.FirstOrDefault(p => p.Index == player.Index);
+            double intervalDamage = plr.DamageGiven - plr.PrevDamageGiven;
+            plr.PrevDamageGiven = plr.DamageGiven;
+            return string.Format("Last {0} seconds: {1:n2}dps", timeElapsed, intervalDamage / timeElapsed);
+        }
+        #endregion 
+
+        #region Times
+        public string TimeTilMorning()
 		{
 			double seconds;
 			if (Main.dayTime)

@@ -17,6 +17,7 @@ namespace Statistics
         public UInt32 DamageTaken { get; set; }
         public UInt32 TimesDamaged { get; set; }
         public UInt32 DamageGiven { get; set; }
+        public UInt32 PrevDamageGiven { get; set; } // used for incremental DPS updates
         public Int16 MaxDamage { get; set; }
         public Int16 MaxReceived { get; set; }
         public UInt32 CritsTaken { get; set; }
